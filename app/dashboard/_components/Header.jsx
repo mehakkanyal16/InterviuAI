@@ -8,6 +8,7 @@ import { Bot, Sparkles, Menu, X } from "lucide-react";
 function Header() {
   const path = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const isLandingPage = path === '/';
 
   // Handle smooth scrolling for anchor links
   const handleScroll = (e, href) => {
@@ -28,7 +29,7 @@ function Header() {
   };
 
   return (
-    <header className="flex items-center justify-between bg-white/95 backdrop-blur-sm shadow-sm px-4 sm:px-6 py-4 sm:py-5 h-auto border-b border-gray-100">
+    <header className="flex items-center justify-between bg-white backdrop-blur-sm shadow-sm px-4 sm:px-6 py-4 sm:py-5 h-auto border-b border-gray-100 relative z-20">
       {/* Logo with responsive sizing */}
       <Link 
         href="/" 
@@ -49,60 +50,77 @@ function Header() {
         </span>
       </Link>
 
-      {/* Hamburger menu for mobile */}
-      <button 
-        className="sm:hidden text-gray-700 hover:text-indigo-500"
-        onClick={toggleMenu}
-      >
-        {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-      </button>
+      {/* Hamburger menu for mobile (only on landing page) */}
+      {isLandingPage && (
+        <button 
+          className="sm:hidden text-gray-700 hover:text-indigo-500 z-30"
+          onClick={toggleMenu}
+        >
+          {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </button>
+      )}
 
-      {/* Navigation - Desktop and Mobile */}
-      <nav className={`
-        ${isMenuOpen ? 'flex' : 'hidden'} 
-        sm:flex flex-col sm:flex-row items-center absolute sm:static 
-        top-full left-0 w-full sm:w-auto bg-white sm:bg-transparent 
-        sm:gap-10 p-4 sm:p-0 border-b sm:border-0 border-gray-100
-        transition-all duration-300
-      `}>
-        {[
-          { name: "Dashboard", href: "/dashboard" },
-          { name: "Features", href: "#features" },
-          { name: "How It Works", href: "#how-it-works" },
-          { name: "Pricing", href: "#pricing" }
-        ].map((item) => (
+      {/* Navigation - Desktop and Mobile (only on landing page) */}
+      {isLandingPage && (
+        <nav className={`
+          ${isMenuOpen ? 'flex' : 'hidden'} 
+          sm:flex flex-col sm:flex-row items-center absolute sm:static 
+          top  top-full left-0 w-full sm:w-auto 
+          bg-white sm:bg-transparent 
+          backdrop-blur-md sm:backdrop-blur-none 
+          sm:gap-10 px-6 py-4 sm:p-0 border-b sm:border-0 border-gray-100
+          transition-all duration-300 ease-in-out z-10
+          ${isMenuOpen ? 'opacity-100 translate-y-0 shadow-xl' : 'opacity-0 -translate-y-2 sm:opacity-100 sm:translate-y-0 sm:shadow-none'}
+        `}>
+          {[
+            { name: "Dashboard", href: "/dashboard" },
+            { name: "Features", href: "#features" },
+            { name: "How It Works", href: "#how-it-works" },
+            { name: "Pricing", href: "#pricing" }
+          ].map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              onClick={(e) => handleScroll(e, item.href)}
+              className={`
+                text-base sm:text-lg font-medium relative py-3 sm:py-0 w-full sm:w-auto text-center
+                ${
+                  path === item.href 
+                    ? 'text-indigo-600' 
+                    : 'text-gray-800 hover:text-indigo-500'
+                }
+              `}
+            >
+              <span className="relative">
+                {item.name}
+                <span className={`
+                  absolute left-0 -bottom-1 w-full h-0.5 bg-indigo-500 
+                  transition-all duration-300 
+                  ${path === item.href ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}
+                `}></span>
+              </span>
+            </Link>
+          ))}
+        </nav>
+      )}
+
+      {/* Right side: Get Started button and User Button (Get Started only on landing page) */}
+      <div className="hidden sm:flex items-center gap-4">
+        {isLandingPage && (
           <Link
-            key={item.name}
-            href={item.href}
-            onClick={(e) => handleScroll(e, item.href)}
-            className={`
-              text-base sm:text-lg font-medium relative py-2 sm:py-0
-              ${
-                path === item.href 
-                  ? 'text-indigo-600' 
-                  : 'text-gray-700 hover:text-indigo-500'
-              }
-            `}
+            href="/dashboard"
+            className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 transition-all duration-300"
           >
-            <span className="relative">
-              {item.name}
-              <span className={`
-                absolute left-0 -bottom-1 w-full h-0.5 bg-indigo-500 
-                transition-all duration-300 
-                ${path === item.href ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}
-              `}></span>
-            </span>
+            Get Started
           </Link>
-        ))}
-      </nav>
-
-      {/* User Button with responsive effect */}
-      <div className="hidden sm:block transition-all hover:scale-110 hover:shadow-lg rounded-full">
-        <UserButton appearance={{
-          elements: {
-            avatarBox: "h-10 w-10 border-2 border-transparent hover:border-indigo-300 transition-all duration-300"
-          }
-        }} />
+        )}
+        <div className="transition-all hover:scale-110 hover:shadow-lg rounded-full">
+          <UserButton appearance={{
+            elements: {
+              avatarBox: "h-10 w-10 border-2 border-transparent hover:border-indigo-300 transition-all duration-300"
+            }
+          }} />
+        </div>
       </div>
     </header>
   );
