@@ -26,7 +26,7 @@ function RecordAnswerSection({mockInterviewQuestion,activeQuestionIndex,intervie
         setResults
    
       } = useSpeechToText({
-        continuous:false,
+        continuous:true,
         useLegacyResults: false
       });
 
