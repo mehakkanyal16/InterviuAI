@@ -29,6 +29,7 @@
 
 ---
 
+
 ## 🛠️ Getting Started with InterviuAI
 
 Follow these steps to get your project up and running:
@@ -36,7 +37,44 @@ Follow these steps to get your project up and running:
 1. **Clone the repository**:
    ```bash
    git clone https://github.com/your-username/interviuAI.git
+2. Navigate to the project folder:
 
+   ```bash
+   cd interviuAI
+3. Install dependencies:
+
+    ```bash
+    npm install
+4. Set up environment variables:
+
+- Create a `.env.local` file in the root directory.
+
+
+-Paste the following environment variables inside it:
+
+   ```bash
+
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your-publishable-key
+    CLERK_SECRET_KEY=your-secret-key
+    NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+    NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+    NEXT_PUBLIC_DRIZZLE_DB_URL=your-database-url
+    NEXT_PUBLIC_GEMINI_API_KEY=your-api-key
+
+5. Set up the database:
+
+-Make sure your PostgreSQL database is correctly connected and accessible via the NEXT_PUBLIC_DRIZZLE_DB_URL.
+
+-Run the following command to set up the database:
+
+    ```bash
+
+    npx drizzle-kit push
+6. Run the development server:
+    ```bash
+
+    npm run dev
+-Access your app at: http://localhost:3000
 
 
 
