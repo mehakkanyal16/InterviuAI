@@ -52,6 +52,4 @@ Follow these steps to get your project up and running:
 
 ---
 
-## 📸 Screenshots
 
-(Optional: Add screenshots or screen recordings here if you have them.)
