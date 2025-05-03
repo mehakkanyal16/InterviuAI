@@ -85,7 +85,7 @@ const Hero = () => {
                         <div className="h-16 w-16 rounded-full bg-primary/20 flex items-center justify-center mb-2">
                           <span className="font-bold text-primary">AI</span>
                         </div>
-                        <p className="text-sm">InterviewSpark</p>
+                        <p className="text-sm">InterviuAI</p>
                       </div>
                     </div>
                     <div className="p-4 bg-gray-50 rounded-lg mb-4">
