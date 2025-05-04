@@ -30,7 +30,8 @@ function Feedback({ params }) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 p-8 md:p-12">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-purple-50 px-6 py-8 md:px-12 md:py-12 relative overflow-hidden">
+
       <div className="max-w-4xl mx-auto">
         {feedbackList?.length === 0 ? (
           <div className="text-center py-16">
