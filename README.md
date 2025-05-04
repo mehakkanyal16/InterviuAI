@@ -43,14 +43,12 @@ Follow these steps to get your project up and running:
    cd interviuAI
 3. Install dependencies:
 
-    ```bash
+   ```bash
     npm install
 4. Set up environment variables:
 
 - Create a `.env.local` file in the root directory.
-
-
--Paste the following environment variables inside it:
+- Paste the following environment variables inside it:
 
    ```bash
 
@@ -63,20 +61,16 @@ Follow these steps to get your project up and running:
 
 5. Set up the database:
 
--Make sure your PostgreSQL database is correctly connected and accessible via the NEXT_PUBLIC_DRIZZLE_DB_URL.
+- Make sure your PostgreSQL database is correctly connected and accessible via the NEXT_PUBLIC_DRIZZLE_DB_URL.
+- Run the following command to set up the database:
 
--Run the following command to set up the database:
-
-    ```bash
+   ```bash
 
     npx drizzle-kit push
 6. Run the development server:
     ```bash
-
     npm run dev
--Access your app at: http://localhost:3000
-
-
+- Access your app at: http://localhost:3000
 
 ---
 
