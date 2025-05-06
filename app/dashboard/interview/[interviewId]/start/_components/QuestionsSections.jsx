@@ -3,10 +3,10 @@ import React, { useEffect } from 'react';
 
 function QuestionsSection({ mockInterviewQuestion, activeQuestionIndex }) {
   // Debug props to diagnose issues
-  useEffect(() => {
-    console.log('mockInterviewQuestion:', mockInterviewQuestion);
-    console.log('activeQuestionIndex:', activeQuestionIndex);
-  }, [mockInterviewQuestion, activeQuestionIndex]);
+  // useEffect(() => {
+  //   console.log('mockInterviewQuestion:', mockInterviewQuestion);
+  //   console.log('activeQuestionIndex:', activeQuestionIndex);
+  // }, [mockInterviewQuestion, activeQuestionIndex]);
 
   const textToSpeech = (text) => {
     if ('speechSynthesis' in window) {
@@ -20,17 +20,15 @@ function QuestionsSection({ mockInterviewQuestion, activeQuestionIndex }) {
   // Check if mockInterviewQuestion is valid and not empty
   if (!mockInterviewQuestion || !Array.isArray(mockInterviewQuestion) || mockInterviewQuestion.length === 0) {
     return (
-      <div className="p-5 border rounded-lg my-10 text-center text-red-600">
-        <p>No questions available. Please check the data source.</p>
-      </div>
+       null
     );
   }
 
-  // Validate activeQuestionIndex
+  // // Validate activeQuestionIndex
   const isValidIndex = activeQuestionIndex >= 0 && activeQuestionIndex < mockInterviewQuestion.length;
   const currentQuestion = isValidIndex ? mockInterviewQuestion[activeQuestionIndex]?.question : 'No question selected';
 
-  return (
+  return mockInterviewQuestion&&(
     <div className="p-5 border rounded-lg my-10">
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
         {mockInterviewQuestion.map((question, index) => (
