@@ -125,4 +125,3 @@ function RecordAnswerSection({mockInterviewQuestion,activeQuestionIndex,intervie
 }
 
 export default RecordAnswerSection
-

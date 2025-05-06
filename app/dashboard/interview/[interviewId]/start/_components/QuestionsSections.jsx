@@ -32,7 +32,7 @@ function QuestionsSection({ mockInterviewQuestion, activeQuestionIndex }) {
 
   return (
     <div className="p-5 border rounded-lg my-10">
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
         {mockInterviewQuestion.map((question, index) => (
           <h2
             key={index}
