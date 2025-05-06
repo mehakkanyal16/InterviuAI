@@ -14,7 +14,7 @@ function StartInterview({ params }) {
   const interviewId = params?.interviewId; // correct destructuring
 
   const [interviewData, setInterviewData] = useState(null);
-  const [mockInterviewQuestion, setMockInterviewQuestion] = useState([]);
+  const [mockInterviewQuestion, setMockInterviewQuestion] = useState();
   const [activeQuestionIndex, setActiveQuestionIndex] = useState(0);
 
   useEffect(() => {
