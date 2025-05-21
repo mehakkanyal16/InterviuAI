@@ -1,34 +1,45 @@
 import { Lightbulb, Volume2 } from 'lucide-react';
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function QuestionsSection({ mockInterviewQuestion, activeQuestionIndex }) {
-  // Debug props to diagnose issues
-  // useEffect(() => {
-  //   console.log('mockInterviewQuestion:', mockInterviewQuestion);
-  //   console.log('activeQuestionIndex:', activeQuestionIndex);
-  // }, [mockInterviewQuestion, activeQuestionIndex]);
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
   const textToSpeech = (text) => {
+    if (typeof window === 'undefined') return; // Guard for SSR
+
     if ('speechSynthesis' in window) {
+      if (isSpeaking) {
+        // Cancel ongoing speech if any before starting new
+        window.speechSynthesis.cancel();
+        setIsSpeaking(false);
+      }
+
       const speech = new SpeechSynthesisUtterance(text);
+
+      speech.onstart = () => {
+        setIsSpeaking(true);
+      };
+      speech.onend = () => {
+        setIsSpeaking(false);
+      };
+      speech.onerror = () => {
+        setIsSpeaking(false);
+      };
+
       window.speechSynthesis.speak(speech);
     } else {
       alert('Sorry, your browser does not support text-to-speech');
     }
   };
 
-  // Check if mockInterviewQuestion is valid and not empty
   if (!mockInterviewQuestion || !Array.isArray(mockInterviewQuestion) || mockInterviewQuestion.length === 0) {
-    return (
-       null
-    );
+    return null;
   }
 
-  // // Validate activeQuestionIndex
   const isValidIndex = activeQuestionIndex >= 0 && activeQuestionIndex < mockInterviewQuestion.length;
   const currentQuestion = isValidIndex ? mockInterviewQuestion[activeQuestionIndex]?.question : 'No question selected';
 
-  return mockInterviewQuestion&&(
+  return (
     <div className="p-5 border rounded-lg my-10">
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
         {mockInterviewQuestion.map((question, index) => (
@@ -44,8 +55,13 @@ function QuestionsSection({ mockInterviewQuestion, activeQuestionIndex }) {
       </div>
       <h2 className="my-5 text-md md:text-lg text-gray-800">{currentQuestion}</h2>
       <Volume2
-        className="cursor-pointer text-indigo-600 hover:text-indigo-800"
-        onClick={() => textToSpeech(currentQuestion)}
+        className={`cursor-pointer text-indigo-600 hover:text-indigo-800 ${isSpeaking ? 'opacity-50 cursor-not-allowed' : ''}`}
+        onClick={() => {
+          if (!isSpeaking) {
+            textToSpeech(currentQuestion);
+          }
+        }}
+        title={isSpeaking ? 'Speaking...' : 'Speak question'}
       />
 
       <div className="border rounded-lg p-5 bg-blue-100 mt-20">

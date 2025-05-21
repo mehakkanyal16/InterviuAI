@@ -1,14 +1,18 @@
 "use client"
+import { useParams } from 'next/navigation'; // ✅ Required
 import { Button } from '@/components/ui/button';
 import { db } from '@/utils/db.js';
 import { MockInterview } from '@/utils/schema';
 import { eq } from 'drizzle-orm';
 import Link from 'next/link';
 import { Lightbulb, Webcam, VideoOff, Mic, MicOff, ChevronRight, AlertCircle } from "lucide-react";
-import React, { useEffect, useState } from 'react'
+import React, { use,useEffect, useState } from 'react'
 import WebcamComponent from 'react-webcam';
 
+
 function Interview({params}) {
+  const unwrappedParams = use(params);  // ✅ Proper way to access dynamic param
+
   const [interviewData, setInterviewData] = useState(null);
   const [webCamEnabled, setWebCamEnabled] = useState(false);
   const [audioEnabled, setAudioEnabled] = useState(false);
@@ -20,7 +24,7 @@ function Interview({params}) {
 
   const getInterviewDetails = async () => {
     try {
-      const result = await db.select().from(MockInterview).where(eq(MockInterview.mockId, params.interviewId));
+      const result = await db.select().from(MockInterview).where(eq(MockInterview.mockId,unwrappedParams.interviewId));
       setInterviewData(result[0]);
     } catch (error) {
       console.error("Error fetching interview details:", error);
@@ -219,7 +223,7 @@ function Interview({params}) {
               <p className="text-sm font-medium">Please enable your camera to continue</p>
             </div>
           )}
-          <Link href={`/dashboard/interview/${params.interviewId}/start`} className="inline-block">
+          <Link href={`/dashboard/interview/${unwrappedParams.interviewId}/start`} className="inline-block">
             <Button 
               size="lg" 
               className="px-12 py-6 text-lg font-semibold shadow-lg hover:shadow-xl transition-all bg-gradient-to-r from-primary to-blue-600 hover:from-primary/90 hover:to-blue-600/90"

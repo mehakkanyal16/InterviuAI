@@ -1,4 +1,5 @@
-"use client";
+'use client';
+
 import { db } from "@/utils/db";
 import { UserAnswer } from "@/utils/schema";
 import { eq } from "drizzle-orm";
@@ -10,28 +11,35 @@ import {
 } from "@/components/ui/collapsible";
 import { ChevronsUpDown, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 
-function Feedback({ params }) {
+function Feedback() {
   const [feedbackList, setFeedbackList] = useState([]);
   const router = useRouter();
+  const params = useParams();
+  const interviewId = params?.interviewId;
 
   useEffect(() => {
-    GetFeedback();
-  }, []);
+    if (!interviewId) return;
 
-  const GetFeedback = async () => {
-    const result = await db
-      .select()
-      .from(UserAnswer)
-      .where(eq(UserAnswer.mockIdRef, params.interviewId))
-      .orderBy(UserAnswer.id);
-    setFeedbackList(result);
-  };
+    const GetFeedback = async () => {
+      try {
+        const result = await db
+          .select()
+          .from(UserAnswer)
+          .where(eq(UserAnswer.mockIdRef, interviewId))
+          .orderBy(UserAnswer.id);
+        setFeedbackList(result);
+      } catch (error) {
+        console.error("Error fetching feedback:", error);
+      }
+    };
+
+    GetFeedback();
+  }, [interviewId]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-purple-50 px-6 py-8 md:px-12 md:py-12 relative overflow-hidden">
-
       <div className="max-w-4xl mx-auto">
         {feedbackList?.length === 0 ? (
           <div className="text-center py-16">

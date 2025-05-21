@@ -33,18 +33,22 @@ function AddNewInterview() {
     e.preventDefault();
     setLoading(true);
 
-    const inputPrompt = `Job Position: ${jobPosition}, Job Description: ${jobDesc}, Job Experience: ${jobExperience}. Based on this information, please provide ${process.env.NEXT_PUBLIC_INTERVIEW_QUESTION} interview questions and answers in JSON format. Include both "questions" and "answers" fields.`;
-
-    const result = await chatSession.sendMessage(inputPrompt);
-    const rawResponse = result.response.text().replace('```json', '').replace('```', '');
+    const inputPrompt = `Job Position: ${jobPosition}, Job Description: ${jobDesc}, Job Experience: ${jobExperience}. Based on this information, please provide ${process.env.NEXT_PUBLIC_INTERVIEW_QUESTION} interview questions and answers in JSON format. Respond ONLY with a JSON array like: [{"question": "...", "answer": "..."}]`;
 
     try {
-      const parsedResponse = JSON.parse(rawResponse);
+      const result = await chatSession.sendMessage(inputPrompt);
+      const responseText = await result.response.text();
+
+      // Extract JSON safely using regex
+      const match = responseText.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
+      const rawJson = match ? match[1] : responseText;
+
+      const parsedResponse = JSON.parse(rawJson.trim());
       setJsonResponse(parsedResponse);
 
       const resp = await db.insert(MockInterview).values({
         mockId: uuidv4(),
-        jsonMockResp: rawResponse,
+        jsonMockResp: rawJson,
         jobPosition,
         jobDesc,
         jobExperience,
@@ -57,10 +61,11 @@ function AddNewInterview() {
         router.push(`/dashboard/interview/${resp[0]?.mockId}`);
       }
     } catch (err) {
-      console.error('Error parsing AI response:', err);
+      console.error("Error parsing AI response:", err);
+      alert("Failed to generate or parse interview questions. Please try again.");
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (
