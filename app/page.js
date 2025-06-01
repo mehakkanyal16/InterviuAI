@@ -16,6 +16,10 @@ export default function Home() {
         <title>InterviewSpark - Your Personal AI Interview Coach</title>
         <meta name="description" content="Master interviews with AI coaching" />
         <link rel="icon" href="/favicon.ico" />
+    
+        <meta property="og:image" content="public/landingpage.png" />
+        <meta property="og:image" content="https://interviu-ai.vercel.app/landingpage.png" />
+        <meta property="og:type" content="website" />
       </Head>
 
 
