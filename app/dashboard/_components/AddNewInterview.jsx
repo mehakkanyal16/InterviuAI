@@ -38,17 +38,12 @@ function AddNewInterview() {
     try {
       const result = await chatSession.sendMessage(inputPrompt);
       const responseText = await result.response.text();
-
-      // Extract JSON safely using regex
-      const match = responseText.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
-      const rawJson = match ? match[1] : responseText;
-
-      const parsedResponse = JSON.parse(rawJson.trim());
+      const parsedResponse = JSON.parse(responseText.trim());
       setJsonResponse(parsedResponse);
 
       const resp = await db.insert(MockInterview).values({
         mockId: uuidv4(),
-        jsonMockResp: rawJson,
+        jsonMockResp: responseText,
         jobPosition,
         jobDesc,
         jobExperience,
