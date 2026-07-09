@@ -1,9 +1,7 @@
 "use client"
 import { useParams } from 'next/navigation'; // ✅ Required
 import { Button } from '@/components/ui/button';
-import { db } from '@/utils/db.js';
-import { MockInterview } from '@/utils/schema';
-import { eq } from 'drizzle-orm';
+import { getInterviewByMockId } from '@/app/actions/interview';
 import Link from 'next/link';
 import { Lightbulb, Webcam, VideoOff, Mic, MicOff, ChevronRight, AlertCircle } from "lucide-react";
 import React, { use,useEffect, useState } from 'react'
@@ -24,8 +22,8 @@ function Interview({params}) {
 
   const getInterviewDetails = async () => {
     try {
-      const result = await db.select().from(MockInterview).where(eq(MockInterview.mockId,unwrappedParams.interviewId));
-      setInterviewData(result[0]);
+      const result = await getInterviewByMockId(unwrappedParams.interviewId);
+      setInterviewData(result);
     } catch (error) {
       console.error("Error fetching interview details:", error);
     } finally {

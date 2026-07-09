@@ -1,8 +1,6 @@
 'use client';
 
-import { db } from "@/utils/db";
-import { UserAnswer } from "@/utils/schema";
-import { eq } from "drizzle-orm";
+import { getFeedbackForInterview } from "@/app/actions/interview";
 import React, { useEffect, useState } from "react";
 import {
   Collapsible,
@@ -24,11 +22,7 @@ function Feedback() {
 
     const GetFeedback = async () => {
       try {
-        const result = await db
-          .select()
-          .from(UserAnswer)
-          .where(eq(UserAnswer.mockIdRef, interviewId))
-          .orderBy(UserAnswer.id);
+        const result = await getFeedbackForInterview(interviewId);
         setFeedbackList(result);
       } catch (error) {
         console.error("Error fetching feedback:", error);

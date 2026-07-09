@@ -3,10 +3,10 @@ const {
     HarmCategory,
     HarmBlockThreshold,
   } = require("@google/generative-ai");
-  
-  const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+
+  const apiKey = process.env.GEMINI_API_KEY;
   const genAI = new GoogleGenerativeAI(apiKey);
-  
+
   const model = genAI.getGenerativeModel({
     model: "gemini-3.1-flash-lite",
   });
@@ -18,7 +18,7 @@ const {
     maxOutputTokens: 8192,
     responseMimeType: "application/json",
   };
-  
+
   const safetySettings=[
     {
         category:HarmCategory.HARM_CATEGORY_HARASSMENT,
@@ -37,8 +37,13 @@ const {
         threshold:HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
     }
   ];
-  
-  export const chatSession = model.startChat({
+
+  // Creates a fresh chat session per call. A single module-level chatSession would,
+  // once called from the server, accumulate history across every request from every
+  // user in the same process (cross-user context bleed + unbounded prompt growth).
+  export function createChatSession() {
+    return model.startChat({
       generationConfig,
       safetySettings,
     });
+  }

@@ -1,8 +1,6 @@
 'use client';
 
-import { db } from "@/utils/db";
-import { MockInterview } from "@/utils/schema";
-import { eq } from "drizzle-orm";
+import { getInterviewByMockId } from "@/app/actions/interview";
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -28,24 +26,21 @@ function StartInterview() {
 
   const GetInterviewDetails = async () => {
     try {
-      const result = await db
-        .select()
-        .from(MockInterview)
-        .where(eq(MockInterview.mockId, interviewId));
+      const result = await getInterviewByMockId(interviewId);
 
-      if (!result || result.length === 0) {
+      if (!result) {
         console.error("No interview data found");
         return;
       }
 
-      const jsonMockResp = JSON.parse(result[0].jsonMockResp);
+      const jsonMockResp = JSON.parse(result.jsonMockResp);
       if (!Array.isArray(jsonMockResp) || jsonMockResp.length === 0) {
         console.error("Invalid or empty questions in jsonMockResp:", jsonMockResp);
         return;
       }
 
       setMockInterviewQuestion(jsonMockResp);
-      setInterviewData(result[0]);
+      setInterviewData(result);
     } catch (err) {
       console.error("Failed to load interview details:", err);
     } finally {

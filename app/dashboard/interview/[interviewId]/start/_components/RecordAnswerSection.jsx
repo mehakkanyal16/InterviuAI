@@ -5,11 +5,7 @@ import React, { useEffect, useState } from 'react'
 import Webcam from 'react-webcam'
 import { Mic, StopCircle } from 'lucide-react'
 import { toast } from 'sonner'
-import { chatSession } from '@/utils/GeminiAIModal'
-import { db } from '@/utils/db'
-import { UserAnswer } from '@/utils/schema'
-import { useUser } from '@clerk/nextjs'
-import moment from 'moment'
+import { submitAnswerFeedback } from '@/app/actions/interview'
 
 let useSpeechToText;
 if (typeof window !== "undefined") {
@@ -20,7 +16,6 @@ function RecordAnswerSection({ mockInterviewQuestion, activeQuestionIndex, inter
   if (!useSpeechToText) return null; // prevents server side or non-browser execution
 
   const [userAnswer, setUserAnswer] = useState('');
-  const { user } = useUser();
   const [loading, setLoading] = useState(false);
 
   const {
@@ -57,31 +52,19 @@ function RecordAnswerSection({ mockInterviewQuestion, activeQuestionIndex, inter
   };
 
   const UpdateUserAnswer = async () => {
-    console.log(userAnswer);
     setLoading(true);
-    const feedbackPrompt = `Question: ${mockInterviewQuestion[activeQuestionIndex]?.question}, User Answer: ${userAnswer}. Please provide a rating and feedback for improvement in JSON format with rating and feedback fields.`;
 
     try {
-      const result = await chatSession.sendMessage(feedbackPrompt);
-      const mockJsonResp = await result.response.text();
-      const JsonFeedbackResp = JSON.parse(mockJsonResp);
-
-      const resp = await db.insert(UserAnswer).values({
-        mockIdRef: interviewData?.mockId,
+      await submitAnswerFeedback({
+        mockId: interviewData?.mockId,
         question: mockInterviewQuestion[activeQuestionIndex]?.question,
         correctAns: mockInterviewQuestion[activeQuestionIndex]?.answer,
         userAns: userAnswer,
-        feedback: JsonFeedbackResp?.feedback,
-        rating: JsonFeedbackResp?.rating,
-        userEmail: user?.primaryEmailAddress?.emailAddress,
-        createdAt: moment().format('DD-MM-yyyy')
       });
 
-      if (resp) {
-        toast('User Answer recorded successfully');
-        setUserAnswer('');
-        setResults([]);
-      }
+      toast('User Answer recorded successfully');
+      setUserAnswer('');
+      setResults([]);
     } catch (e) {
       toast.error('Failed to save answer or parse response.');
     }

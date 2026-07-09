@@ -56,8 +56,12 @@ Follow these steps to get your project up and running:
     CLERK_SECRET_KEY=your-secret-key
     NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
     NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
-    NEXT_PUBLIC_DRIZZLE_DB_URL=your-database-url
-    NEXT_PUBLIC_GEMINI_API_KEY=your-api-key
+    DATABASE_URL=your-database-url
+    GEMINI_API_KEY=your-api-key
+    INTERVIEW_QUESTION_COUNT=5
+
+    DATABASE_URL and GEMINI_API_KEY are intentionally NOT prefixed with NEXT_PUBLIC_ —
+    they are only ever read on the server (Server Actions), never bundled to the browser.
 
 5. Set up the database:
 

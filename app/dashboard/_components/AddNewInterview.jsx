@@ -10,14 +10,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { chatSession } from "@/utils/GeminiAIModal";
 import { LoaderCircle } from "lucide-react";
-import { MockInterview } from "@/utils/schema";
-import { db } from "@/utils/db.js";
-import { v4 as uuidv4 } from 'uuid';
+import { generateMockInterview } from "@/app/actions/interview";
 import { useRouter } from "next/navigation";
-import { useUser } from "@clerk/nextjs";
-import moment from 'moment';
 
 function AddNewInterview() {
   const [openDailog, setOpenDailog] = useState(false);
@@ -25,39 +20,19 @@ function AddNewInterview() {
   const [jobDesc, setJobDesc] = useState('');
   const [jobExperience, setJobExperience] = useState('');
   const [loading, setLoading] = useState(false);
-  const [jsonResponse, setJsonResponse] = useState([]);
-  const { user } = useUser();
   const router = useRouter();
 
   const onSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    const inputPrompt = `Job Position: ${jobPosition}, Job Description: ${jobDesc}, Job Experience: ${jobExperience}. Based on this information, please provide ${process.env.NEXT_PUBLIC_INTERVIEW_QUESTION} interview questions and answers in JSON format. Respond ONLY with a JSON array like: [{"question": "...", "answer": "..."}]`;
-
     try {
-      const result = await chatSession.sendMessage(inputPrompt);
-      const responseText = await result.response.text();
-      const parsedResponse = JSON.parse(responseText.trim());
-      setJsonResponse(parsedResponse);
-
-      const resp = await db.insert(MockInterview).values({
-        mockId: uuidv4(),
-        jsonMockResp: responseText,
-        jobPosition,
-        jobDesc,
-        jobExperience,
-        createdBy: user?.primaryEmailAddress?.emailAddress,
-        createdAt: moment().format('DD-MM-YYYY'),
-      }).returning({ mockId: MockInterview.mockId });
-
-      if (resp) {
-        setOpenDailog(false);
-        router.push(`/dashboard/interview/${resp[0]?.mockId}`);
-      }
+      const { mockId } = await generateMockInterview({ jobPosition, jobDesc, jobExperience });
+      setOpenDailog(false);
+      router.push(`/dashboard/interview/${mockId}`);
     } catch (err) {
-      console.error("Error parsing AI response:", err);
-      alert("Failed to generate or parse interview questions. Please try again.");
+      console.error("Error generating interview:", err);
+      alert("Failed to generate interview questions. Please try again.");
     } finally {
       setLoading(false);
     }
