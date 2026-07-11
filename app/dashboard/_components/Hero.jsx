@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { ArrowRight, Play } from "lucide-react";
+import { ArrowRight, Play, User } from "lucide-react";
 
 const Hero = () => {
   return (
     <section className="relative bg-pattern py-16 lg:py-24 overflow-hidden w-full">
       {/* Gradient Orbs - full width background elements */}
       <div className="absolute -top-40 -right-40 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl animate-float" />
-      <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-pink-600/20 rounded-full blur-3xl animation-delay-2000 animate-float" />
+      <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl animation-delay-2000 animate-float" />
 
       {/* Centered content container */}
       <div className="w-full mx-auto px-4 relative z-10">
@@ -29,24 +29,26 @@ const Hero = () => {
             </h1>
 
             <p className="mb-8 text-lg md:text-xl text-gray-700 max-w-2xl mx-auto">
-              Double your chances of landing that dream job with personalized
-              AI-powered interview preparation that adapts to your industry and
-              role.
+              Prepare with confidence using personalized AI-powered interview
+              practice that adapts to your industry and role.
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
               <Link
                 href={"/dashboard"}
-                prefetch={true} 
+                prefetch={true}
                 aria-describedby="tier-standard"
-                className="bg-primary hover:bg-purple-700 text-white text-lg px-8 py-3 rounded-md flex items-center justify-center gap-2"
+                className="bg-primary hover:bg-primary/90 text-white text-lg px-8 py-3 rounded-md flex items-center justify-center gap-2"
               >
                 Continue with free
               </Link>
-              <button className="border border-gray-300 hover:bg-gray-100 text-lg px-8 py-3 rounded-md flex items-center justify-center gap-2">
+              <a
+                href="#how-it-works"
+                className="border border-gray-300 hover:bg-gray-100 text-lg px-8 py-3 rounded-md flex items-center justify-center gap-2"
+              >
                 <Play className="h-5 w-5 text-primary" />
-                Watch Demo
-              </button>
+                See How It Works
+              </a>
             </div>
 
             {/* Feature Pills */}
@@ -78,7 +80,9 @@ const Hero = () => {
                     </h3>
                     <div className="flex justify-center gap-6 mb-6">
                       <div className="flex flex-col items-center">
-                        <div className="h-16 w-16 rounded-full bg-gray-200 mb-2"></div>
+                        <div className="h-16 w-16 rounded-full bg-gray-100 border-2 border-gray-200 flex items-center justify-center mb-2">
+                          <User className="h-7 w-7 text-gray-500" />
+                        </div>
                         <p className="text-sm">You</p>
                       </div>
                       <div className="flex flex-col items-center">

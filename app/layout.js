@@ -17,6 +17,14 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "InterviuAI - Mock Interviews with AI Feedback",
   description: "InterviuAI helps you practice mock interviews and receive instant AI-generated feedback to improve your answers.",
+  openGraph: {
+    title: "InterviuAI - Mock Interviews with AI Feedback",
+    description: "InterviuAI helps you practice mock interviews and receive instant AI-generated feedback to improve your answers.",
+    url: "https://interviu-ai.vercel.app",
+    siteName: "InterviuAI",
+    images: [{ url: "https://interviu-ai.vercel.app/landingpage.png" }],
+    type: "website",
+  },
 };
 
 export default function RootLayout({ children }) {

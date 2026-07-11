@@ -63,10 +63,10 @@ function Header() {
       {/* Navigation - Desktop and Mobile (only on landing page) */}
       {isLandingPage && (
         <nav className={`
-          ${isMenuOpen ? 'flex' : 'hidden'} 
-          sm:flex flex-col sm:flex-row items-center absolute sm:static 
-          top  top-full left-0 w-full sm:w-auto 
-          bg-white sm:bg-transparent 
+          ${isMenuOpen ? 'flex' : 'hidden'}
+          sm:flex flex-col sm:flex-row items-center absolute sm:static
+          top-full left-0 w-full sm:w-auto
+          bg-white sm:bg-transparent
           backdrop-blur-md sm:backdrop-blur-none 
           sm:gap-10 px-6 py-4 sm:p-0 border-b sm:border-0 border-gray-100
           transition-all duration-300 ease-in-out z-10
@@ -109,7 +109,7 @@ function Header() {
         {isLandingPage && (
           <Link
             href="/dashboard"
-            className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 transition-all duration-300"
+            className="px-4 py-2 text-sm font-medium text-white bg-primary rounded-md hover:bg-primary/90 transition-all duration-300"
           >
             Get Started
           </Link>

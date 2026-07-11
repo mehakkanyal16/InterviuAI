@@ -3,12 +3,21 @@
 import { useEffect, useState } from 'react';
 import { useUser } from '@clerk/nextjs';
 import { getUserStats } from '@/app/actions/interview';
+import { formatStoredDate } from '@/lib/utils';
 import { BarChart3, MessageSquareText, Star, CalendarClock } from 'lucide-react';
 
-function StatTile({ icon: Icon, label, value }) {
+const ACCENTS = {
+  indigo: 'border-l-indigo-500 bg-indigo-50 text-indigo-600',
+  purple: 'border-l-purple-500 bg-purple-50 text-purple-600',
+  amber: 'border-l-amber-500 bg-amber-50 text-amber-600',
+  blue: 'border-l-blue-500 bg-blue-50 text-blue-600',
+};
+
+function StatTile({ icon: Icon, label, value, accent = 'indigo' }) {
+  const [borderClass, bgClass, textClass] = ACCENTS[accent].split(' ');
   return (
-    <div className="bg-white/90 backdrop-blur-sm border border-gray-200/50 rounded-xl shadow-md p-5 flex items-center gap-4">
-      <div className="p-3 rounded-lg bg-primary/10 text-primary">
+    <div className={`bg-white/90 backdrop-blur-sm border border-gray-200/50 border-l-4 ${borderClass} rounded-xl shadow-md p-5 flex items-center gap-4 transition-shadow hover:shadow-lg`}>
+      <div className={`p-3 rounded-lg ${bgClass} ${textClass}`}>
         <Icon className="h-6 w-6" />
       </div>
       <div>
@@ -17,15 +26,6 @@ function StatTile({ icon: Icon, label, value }) {
       </div>
     </div>
   );
-}
-
-function formatDate(dateStr) {
-  if (!dateStr) return null;
-  const [day, month, year] = dateStr.split('-');
-  if (!day || !month || !year) return dateStr;
-  const date = new Date(Number(year), Number(month) - 1, Number(day));
-  if (Number.isNaN(date.getTime())) return dateStr;
-  return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
 function DashboardStats() {
@@ -50,17 +50,19 @@ function DashboardStats() {
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-      <StatTile icon={BarChart3} label="Total interviews" value={stats.totalInterviews} />
-      <StatTile icon={MessageSquareText} label="Questions practiced" value={stats.questionsAnswered} />
+      <StatTile icon={BarChart3} label="Total interviews" value={stats.totalInterviews} accent="indigo" />
+      <StatTile icon={MessageSquareText} label="Questions practiced" value={stats.questionsAnswered} accent="purple" />
       <StatTile
         icon={Star}
         label="Average score"
         value={stats.averageScore != null ? `${stats.averageScore}/10` : '—'}
+        accent="amber"
       />
       <StatTile
         icon={CalendarClock}
         label="Last practiced"
-        value={formatDate(stats.lastPracticed) ?? 'Not yet'}
+        value={formatStoredDate(stats.lastPracticed) ?? 'Not yet'}
+        accent="blue"
       />
     </div>
   );

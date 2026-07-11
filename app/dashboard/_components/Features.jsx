@@ -1,13 +1,13 @@
 import { Brain, Target, LineChart, Clock, Video, MessageSquare } from "lucide-react";
 
-const FeatureCard = ({ 
-  icon: Icon, 
-  title, 
-  description 
+const FeatureCard = ({
+  icon: Icon,
+  title,
+  description
 }) => (
-  <div className="feature-card bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-    <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-6">
-      <Icon className="h-6 w-6 text-primary" />
+  <div className="group bg-white p-6 rounded-xl shadow-sm border border-gray-100 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-primary/20">
+    <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-6 transition-colors duration-300 group-hover:bg-primary">
+      <Icon className="h-6 w-6 text-primary transition-colors duration-300 group-hover:text-white" />
     </div>
     <h3 className="text-xl font-bold mb-2">{title}</h3>
     <p className="text-gray-600">{description}</p>
@@ -33,8 +33,8 @@ const Features = () => {
     },
     {
       icon: Clock,
-      title: "Real-time Coaching",
-      description: "Receive guidance during your mock interviews, just like having a personal interview coach by your side."
+      title: "Question-by-Question Feedback",
+      description: "Get a rating and feedback right after each answer, not just a summary at the end, so you can see exactly what to improve."
     },
     {
       icon: Video,
@@ -43,8 +43,8 @@ const Features = () => {
     },
     {
       icon: MessageSquare,
-      title: "Answer Library",
-      description: "Access a library of example answers to common questions to help you craft your perfect responses."
+      title: "Sample Answers",
+      description: "See a model answer alongside your own for every question, so you know exactly what a strong response looks like."
     },
   ];
 

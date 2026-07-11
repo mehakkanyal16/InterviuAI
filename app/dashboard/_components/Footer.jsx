@@ -35,19 +35,19 @@ const Footer = () => (
         <div className="flex flex-col items-center md:items-end">
           <h3 className="text-gray-300 mb-3">Connect With Us</h3>
           <div className="flex gap-4 text-2xl">
-            <a href="https://www.instagram.com/mehak_kanyal16/" target="_blank" className="text-gray-400 hover:text-pink-500 transition-colors">
+            <a href="https://www.instagram.com/mehak_kanyal16/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-pink-500 transition-colors">
               <AiFillInstagram />
             </a>
-            <a href="https://www.linkedin.com/in/mehak-kanyal-9b32ba261/" target="_blank" className="text-gray-400 hover:text-blue-400 transition-colors">
+            <a href="https://www.linkedin.com/in/mehak-kanyal-9b32ba261/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">
               <AiFillLinkedin />
             </a>
-            <a href="https://x.com/mehakkanyal16" target="_blank" className="text-gray-400 hover:text-gray-300 transition-colors">
+            <a href="https://x.com/mehakkanyal16" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gray-300 transition-colors">
               <FaXTwitter />
             </a>
-            <a href="https://github.com/mehakkanyal16" target="_blank" className="text-gray-400 hover:text-white transition-colors">
+            <a href="https://github.com/mehakkanyal16" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
               <FaGithub />
             </a>
-            <a href="https://www.youtube.com/@mehakkanyal8440" target="_blank" className="text-gray-400 hover:text-red-500 transition-colors">
+            <a href="https://www.youtube.com/@mehakkanyal8440" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-red-500 transition-colors">
               <FaYoutube />
             </a>
           </div>

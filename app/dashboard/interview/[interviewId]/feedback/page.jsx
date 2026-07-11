@@ -42,7 +42,7 @@ function Feedback() {
             </h2>
             <Button
               onClick={() => router.replace("/dashboard")}
-              className="mt-6 bg-blue-600 hover:bg-blue-700 text-white rounded-full px-8 py-3 transition-all duration-300"
+              className="mt-6 bg-primary hover:bg-primary/90 text-white rounded-full px-8 py-3 transition-all duration-300"
             >
               Return to Dashboard
             </Button>
@@ -102,7 +102,7 @@ function Feedback() {
             <div className="mt-12 text-center">
               <Button
                 onClick={() => router.replace("/dashboard")}
-                className="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-8 py-3 text-lg font-semibold transition-all duration-300 transform hover:scale-105"
+                className="bg-primary hover:bg-primary/90 text-white rounded-full px-8 py-3 text-lg font-semibold transition-all duration-300 transform hover:scale-105"
               >
                 Back to Dashboard
               </Button>

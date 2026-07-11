@@ -4,12 +4,11 @@ import React from "react";
 const Pricing = () => {
   return (
     <section
-      className="flex items-center justify-center my-10 pb-10"
+      className="flex items-center justify-center py-20"
       id="pricing"
     >
       <div
-        className="p-4 sm:px-10 flex flex-col justify-center items-center text-base h-100vh mx-auto"
-        id="pricing"
+        className="p-4 sm:px-10 flex flex-col justify-center items-center text-base mx-auto"
       >
        <div className="container px-4">
   <div className="text-center mb-16">
@@ -105,18 +104,16 @@ const Pricing = () => {
               Smart, personalized interview prep for every candidate
             </p>
             <p className="mt-6 flex items-baseline gap-x-1">
-              <span className="line-through text-2xl font-sans text-gray-500/70">
-                $59
-              </span>
               <span className="text-5xl font-bold tracking-tight text-gray-900">
                 $39
               </span>
+              <span className="text-base text-gray-500">/month</span>
             </p>
             <div
               aria-describedby="tier-extended"
-              className="bg-purple-600 hover:bg-purple-400 text-white shadow-sm mt-6 block rounded-md py-2 px-3 text-center text-base font-medium leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600  cursor-not-allowed"
+              className="bg-purple-600/50 text-white shadow-sm mt-6 block rounded-md py-2 px-3 text-center text-base font-medium leading-6 cursor-not-allowed"
             >
-              Buy now
+              Coming Soon
             </div>
             <ul
               role="list"

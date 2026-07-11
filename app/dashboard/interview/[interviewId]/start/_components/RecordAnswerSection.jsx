@@ -73,7 +73,13 @@ function RecordAnswerSection({ mockInterviewQuestion, activeQuestionIndex, inter
 
   return (
     <div className='flex items-center justify-center flex-col'>
-      <div className='flex flex-col mt-20 justify-center items-center bg-black rounded-lg p-5 relative'>
+      <div className='flex flex-col mt-20 justify-center items-center bg-black rounded-2xl shadow-xl border border-gray-800 p-5 relative overflow-hidden'>
+        {isRecording && (
+          <div className='absolute top-4 left-4 z-20 flex items-center gap-1.5 bg-red-600 text-white text-xs font-medium px-3 py-1 rounded-full'>
+            <span className='h-2 w-2 rounded-full bg-white animate-pulse' />
+            Recording
+          </div>
+        )}
         <Image src={'/webcam.png'} width={200} height={200} alt='webcam' className='absolute' />
         <Webcam
           mirrored={true}
@@ -81,22 +87,24 @@ function RecordAnswerSection({ mockInterviewQuestion, activeQuestionIndex, inter
             height: 500,
             width: 500,
             zIndex: 10,
+            borderRadius: '0.75rem',
           }}
         />
       </div>
       <Button
         disabled={loading}
-        variant="outline" className="my-10"
+        variant="outline"
+        className="my-10 px-6 py-5"
         onClick={StartStopRecording}
       >
         {isRecording ?
-          <h2 className='text-red-600 animate-pulse flex gap-2 items-center'>
+          <span className='text-red-600 animate-pulse flex gap-2 items-center'>
             <StopCircle />Stop Recording
-          </h2>
+          </span>
           :
-          <h2 className='text-primary flex gap-2 items-center'>
+          <span className='text-primary flex gap-2 items-center'>
             <Mic /> Record Answer
-          </h2>}
+          </span>}
       </Button>
     </div>
   );

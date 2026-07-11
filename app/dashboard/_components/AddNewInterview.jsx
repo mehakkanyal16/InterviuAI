@@ -10,9 +10,10 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { LoaderCircle } from "lucide-react";
+import { LoaderCircle, Plus } from "lucide-react";
 import { generateMockInterview } from "@/app/actions/interview";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 function AddNewInterview() {
   const [openDailog, setOpenDailog] = useState(false);
@@ -33,7 +34,7 @@ function AddNewInterview() {
       router.push(`/dashboard/interview/${mockId}`);
     } catch (err) {
       console.error("Error generating interview:", err);
-      alert("Failed to generate interview questions. Please try again.");
+      toast.error("Failed to generate interview questions. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -42,10 +43,13 @@ function AddNewInterview() {
   return (
     <div>
       <div
-        className="p-6 border border-dashed border-gray-300 rounded-xl bg-secondary/30 hover:bg-secondary/50 hover:scale-105 hover:shadow-md transition-all cursor-pointer text-center"
+        className="group p-8 border-2 border-dashed border-gray-300 rounded-xl bg-secondary/30 hover:bg-primary/5 hover:border-primary/40 hover:shadow-md transition-all cursor-pointer text-center flex flex-col items-center gap-3"
         onClick={() => setOpenDailog(true)}
       >
-        <h2 className="text-lg font-medium text-primary">+ Add New Interview</h2>
+        <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center transition-colors group-hover:bg-primary">
+          <Plus className="h-6 w-6 text-primary transition-colors group-hover:text-white" />
+        </div>
+        <h2 className="text-lg font-medium text-primary">Add New Interview</h2>
       </div>
 
       <Dialog open={openDailog} onOpenChange={setOpenDailog}>

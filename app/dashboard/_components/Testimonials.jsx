@@ -1,17 +1,18 @@
 "use client";
-import { Star } from "lucide-react";
+import { Quote, Star } from "lucide-react";
 import { useEffect, useRef } from "react";
 
 const TestimonialCard = ({ content, stars = 5 }) => (
-  <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-xl transition-shadow w-[380px] flex-shrink-0 mx-4">
+  <div className="relative bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 w-[380px] flex-shrink-0 mx-4">
+    <Quote className="absolute top-5 right-5 h-8 w-8 text-primary/10" fill="currentColor" />
     <div className="flex mb-4">
       {Array.from({ length: stars }).map((_, i) => (
         <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
       ))}
     </div>
-    <p className="text-gray-600 mb-6 italic">"{content}"</p>
+    <p className="text-gray-600 mb-6 italic relative">"{content}"</p>
     <div className="flex items-center">
-      <div className="h-10 w-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold">
+      <div className="h-10 w-10 rounded-full bg-gradient-to-r from-indigo-600 to-primary flex items-center justify-center text-white font-bold">
         ✓
       </div>
       <div className="ml-4">
@@ -79,13 +80,13 @@ const Testimonials = () => {
     <section id="testimonials" className="py-20 bg-gray-50 overflow-hidden">
       <div className="container px-4">
         <div className="text-center mb-8">
-          <p className="text-primary font-medium mb-2">TESTIMONIALS</p>
+          <p className="text-primary font-medium mb-2">SAMPLE FEEDBACK</p>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            What our users are saying
+            The kind of impact we're aiming for
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Discover how InterviuAI is helping professionals land their
-            dream jobs with personalized AI interview coaching.
+            InterviuAI is designed to help professionals land their dream jobs
+            with personalized AI interview coaching — here's a preview of the experience.
           </p>
         </div>
 
@@ -96,10 +97,6 @@ const Testimonials = () => {
             className="overflow-x-hidden py-4 hide-scrollbar"
           >
             <div ref={cardsRef} className="flex w-max">
-              {/* <TestimonialCard
-                content="Went from nervous to prepared in just a week. Highly recommend!"
-                stars={5}
-              /> */}
               <TestimonialCard
                 content="The realistic mock interviews made all the difference. I felt so much more confident during my actual interviews and could anticipate questions better. Worth every penny."
                 stars={5}

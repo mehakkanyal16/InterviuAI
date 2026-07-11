@@ -1,4 +1,4 @@
-import { AtomIcon, Edit, Share2 } from "lucide-react";
+import { ClipboardList, Mic, TrendingUp } from "lucide-react";
 
 const Step = ({ 
   number, 
@@ -27,19 +27,19 @@ const Step = ({
 const HowItWorks = () => {
   const steps = [
     {
-      icon: AtomIcon,
-      title: "Select an Interview Type",
-      description: "Choose from various interview types like behavioral, technical, or case interviews tailored to your industry."
+      icon: ClipboardList,
+      title: "Tell Us About the Role",
+      description: "Enter the job position, tech stack, and experience level you're preparing for, and choose how many questions you'd like."
     },
     {
-      icon: Edit,
+      icon: Mic,
       title: "Practice with AI",
-      description: "Engage in realistic mock interviews with our AI interviewer and receive immediate feedback on your responses."
+      description: "Answer AI-generated questions tailored to your role, by voice or text, in a realistic mock interview setting."
     },
     {
-      icon: Share2,
+      icon: TrendingUp,
       title: "Review & Improve",
-      description: "Analyze your performance, review suggested improvements, and practice again to build confidence."
+      description: "Get instant AI feedback and a rating on each answer, then review your full session to see where to improve."
     }
   ];
 
