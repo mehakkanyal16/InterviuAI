@@ -41,9 +41,11 @@ const {
   // Creates a fresh chat session per call. A single module-level chatSession would,
   // once called from the server, accumulate history across every request from every
   // user in the same process (cross-user context bleed + unbounded prompt growth).
-  export function createChatSession() {
+  export function createChatSession(generationConfigOverrides) {
     return model.startChat({
-      generationConfig,
+      generationConfig: generationConfigOverrides
+        ? { ...generationConfig, ...generationConfigOverrides }
+        : generationConfig,
       safetySettings,
     });
   }

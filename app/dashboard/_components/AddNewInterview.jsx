@@ -19,6 +19,7 @@ function AddNewInterview() {
   const [jobPosition, setJobPosition] = useState('');
   const [jobDesc, setJobDesc] = useState('');
   const [jobExperience, setJobExperience] = useState('');
+  const [questionCount, setQuestionCount] = useState(5);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -27,7 +28,7 @@ function AddNewInterview() {
     setLoading(true);
 
     try {
-      const { mockId } = await generateMockInterview({ jobPosition, jobDesc, jobExperience });
+      const { mockId } = await generateMockInterview({ jobPosition, jobDesc, jobExperience, questionCount });
       setOpenDailog(false);
       router.push(`/dashboard/interview/${mockId}`);
     } catch (err) {
@@ -88,6 +89,19 @@ function AddNewInterview() {
                 required
                 value={jobExperience}
                 onChange={(e) => setJobExperience(e.target.value)}
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-1">Number of Questions</label>
+              <Input
+                type="number"
+                placeholder="Ex. 5"
+                min="3"
+                max="15"
+                required
+                value={questionCount}
+                onChange={(e) => setQuestionCount(e.target.value)}
               />
             </div>
 

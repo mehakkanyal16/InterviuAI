@@ -23,11 +23,17 @@ function extractJson(text) {
   return raw.trim();
 }
 
-export async function generateMockInterview({ jobPosition, jobDesc, jobExperience }) {
-  const email = await requireUserEmail();
-  const questionCount = process.env.INTERVIEW_QUESTION_COUNT || 5;
+function clampQuestionCount(value) {
+  const parsed = Math.round(Number(value));
+  if (!Number.isFinite(parsed)) return 5;
+  return Math.min(15, Math.max(3, parsed));
+}
 
-  const inputPrompt = `Job Position: ${jobPosition}, Job Description: ${jobDesc}, Job Experience: ${jobExperience}. Based on this information, please provide ${questionCount} interview questions and answers in JSON format. Respond ONLY with a JSON array like: [{"question": "...", "answer": "..."}]`;
+export async function generateMockInterview({ jobPosition, jobDesc, jobExperience, questionCount }) {
+  const email = await requireUserEmail();
+  const validatedQuestionCount = clampQuestionCount(questionCount);
+
+  const inputPrompt = `Job Position: ${jobPosition}, Job Description: ${jobDesc}, Job Experience: ${jobExperience}. Based on this information, please provide ${validatedQuestionCount} interview questions and answers in JSON format. Respond ONLY with a JSON array like: [{"question": "...", "answer": "..."}]`;
 
   const chat = createChatSession();
   const result = await chat.sendMessage(inputPrompt);
@@ -78,12 +84,22 @@ export async function submitAnswerFeedback({ mockId, question, correctAns, userA
     throw new Error('Interview not found');
   }
 
-  const feedbackPrompt = `Question: ${question}, User Answer: ${userAns}. Please provide a rating and feedback for improvement in JSON format with rating and feedback fields.`;
+  const feedbackPrompt = `Question: ${question}, User Answer: ${userAns}. Please provide a rating as an integer from 1 to 10, and feedback for improvement, in JSON format with rating and feedback fields.`;
 
-  const chat = createChatSession();
+  const chat = createChatSession({
+    responseSchema: {
+      type: 'object',
+      properties: {
+        rating: { type: 'integer', description: 'Rating from 1 to 10' },
+        feedback: { type: 'string' },
+      },
+    },
+  });
   const result = await chat.sendMessage(feedbackPrompt);
   const rawJson = extractJson(result.response.text());
   const feedback = JSON.parse(rawJson);
+
+  const clampedRating = Math.min(10, Math.max(1, Math.round(Number(feedback?.rating)) || 5));
 
   await db.insert(UserAnswer).values({
     mockIdRef: mockId,
@@ -91,7 +107,7 @@ export async function submitAnswerFeedback({ mockId, question, correctAns, userA
     correctAns,
     userAns,
     feedback: feedback?.feedback,
-    rating: feedback?.rating != null ? String(feedback.rating) : null,
+    rating: String(clampedRating),
     userEmail: email,
     createdAt: moment().format('DD-MM-YYYY'),
   });
@@ -106,4 +122,35 @@ export async function getFeedbackForInterview(mockId) {
     .from(UserAnswer)
     .where(and(eq(UserAnswer.mockIdRef, mockId), eq(UserAnswer.userEmail, email)))
     .orderBy(UserAnswer.id);
+}
+
+export async function getUserStats() {
+  const email = await requireUserEmail();
+
+  const interviews = await db
+    .select()
+    .from(MockInterview)
+    .where(eq(MockInterview.createdBy, email))
+    .orderBy(desc(MockInterview.id));
+
+  const answers = await db
+    .select()
+    .from(UserAnswer)
+    .where(eq(UserAnswer.userEmail, email));
+
+  const validRatings = answers
+    .map((a) => Number(a.rating))
+    .filter((n) => Number.isFinite(n) && n >= 1 && n <= 10);
+
+  const averageScore =
+    validRatings.length > 0
+      ? Math.round((validRatings.reduce((sum, n) => sum + n, 0) / validRatings.length) * 10) / 10
+      : null;
+
+  return {
+    totalInterviews: interviews.length,
+    questionsAnswered: answers.length,
+    averageScore,
+    lastPracticed: interviews[0]?.createdAt ?? null,
+  };
 }

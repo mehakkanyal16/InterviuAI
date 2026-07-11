@@ -58,7 +58,6 @@ Follow these steps to get your project up and running:
     NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
     DATABASE_URL=your-database-url
     GEMINI_API_KEY=your-api-key
-    INTERVIEW_QUESTION_COUNT=5
 
     DATABASE_URL and GEMINI_API_KEY are intentionally NOT prefixed with NEXT_PUBLIC_ —
     they are only ever read on the server (Server Actions), never bundled to the browser.

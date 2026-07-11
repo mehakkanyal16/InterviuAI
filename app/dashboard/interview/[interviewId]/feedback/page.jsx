@@ -78,7 +78,7 @@ function Feedback() {
                       <div className="flex items-center gap-2 p-4 bg-amber-50 rounded-xl">
                         <Star className="h-5 w-5 text-amber-500" />
                         <span className="text-amber-700 font-medium">
-                          <strong>Rating:</strong> {item.rating}/5
+                          <strong>Rating:</strong> {item.rating}/10
                         </span>
                       </div>
                       <div className="p-4 bg-red-50 rounded-xl text-red-800">

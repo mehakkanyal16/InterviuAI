@@ -1,5 +1,6 @@
 import React from 'react';
 import AddNewInterview from './_components/AddNewInterview';
+import DashboardStats from './_components/DashboardStats';
 import InterviewList from './interview/[interviewId]/start/_components/InterviewList';
 
 function Dashboard() {
@@ -22,6 +23,13 @@ function Dashboard() {
           </p>
         </div>
       </header>
+
+      {/* Stats Overview Section */}
+      <section className="mb-16 relative z-10">
+        <div className="max-w-5xl mx-auto">
+          <DashboardStats />
+        </div>
+      </section>
 
       {/* Create New Interview Section */}
       <section className="mb-16 relative z-10">
